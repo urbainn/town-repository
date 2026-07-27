@@ -1,10 +1,4 @@
 import { readFile, BaseDirectory, open, writeFile, exists } from '@tauri-apps/plugin-fs';
-import { appDataDir, join } from '@tauri-apps/api/path';
-
-const trueDir = await appDataDir();
-const exactPath = await join(trueDir);
-
-console.log("TAURI IS WRITING LITERALLY HERE:", exactPath);
 
 /**
  * Helper class for reading and writing blocks of data to and from files. \
