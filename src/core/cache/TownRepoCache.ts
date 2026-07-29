@@ -15,6 +15,8 @@ export interface TownRepoData {
     townType: TownType;
     primaryColour: string;
     secondaryColour: string;
+    /** Comma-separated */
+    townLAUcodes: string;
 }
 
 export class TownRepo implements CacheElement {
@@ -24,13 +26,15 @@ export class TownRepo implements CacheElement {
     
     primaryColour: string;
     secondaryColour: string;
-  
-    constructor(id: number, townName: string, townType: TownType, primaryColour: string, secondaryColour: string) {
+    townLAUcodes: string[];
+
+    constructor(id: number, townName: string, townType: TownType, primaryColour: string, secondaryColour: string, townLAUcodes: string) {
         this.id = id;
         this.townName = townName;
         this.townType = townType;
         this.primaryColour = primaryColour;
         this.secondaryColour = secondaryColour;
+        this.townLAUcodes = townLAUcodes.split(",").map(code => code.trim());
     }
 
 }
@@ -42,7 +46,8 @@ export class TownRepoCache extends SavedCacheBase<TownRepo, TownRepoData> {
         { nom: "townName", type: "string" },
         { nom: "townType", type: "uint8" },
         { nom: "primaryColour", type: "string" },
-        { nom: "secondaryColour", type: "string" }
+        { nom: "secondaryColour", type: "string" },
+        { nom: "townLAUcodes", type: "string" }
     ]);
 
     filePath = "townRepo.bin";
@@ -53,12 +58,13 @@ export class TownRepoCache extends SavedCacheBase<TownRepo, TownRepoData> {
             townName: element.townName,
             townType: element.townType,
             primaryColour: element.primaryColour,
-            secondaryColour: element.secondaryColour
+            secondaryColour: element.secondaryColour,
+            townLAUcodes: element.townLAUcodes.join(",")
         };
     }
 
     deserializeElement(data: TownRepoData): TownRepo {
-        return new TownRepo(data.id, data.townName, data.townType, data.primaryColour, data.secondaryColour);
+        return new TownRepo(data.id, data.townName, data.townType, data.primaryColour, data.secondaryColour, data.townLAUcodes);
     }
 
 }
