@@ -5,10 +5,10 @@ interface HeaderProps {
     show: boolean;
     text: string;
     rightSideContent?: React.ReactNode;
-    onBackButtonClick?: () => void;
+    onBack?: () => void;
 }
 
-function Header({ show, text, rightSideContent, onBackButtonClick }: HeaderProps) {
+function Header({ show, text, rightSideContent, onBack }: HeaderProps) {
     if (!show) return null;
     return (
         <AppBar position="static" color="primary">
@@ -19,8 +19,9 @@ function Header({ show, text, rightSideContent, onBackButtonClick }: HeaderProps
                     color="inherit"
                     aria-label="back"
                     sx={{ mr: 2 }}
+                    onClick={onBack}
                 >
-                    <BackIcon onClick={onBackButtonClick} />
+                    <BackIcon />
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     {text}

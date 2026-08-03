@@ -18,7 +18,12 @@ function App() {
 
   return (
     <main>
-      <Header show={headerProps.show} text={headerProps.text} />
+      <Header
+        show={headerProps.show}
+        text={headerProps.text}
+        rightSideContent={headerProps.rightSideContent}
+        onBack={headerProps.onBack}
+      />
 
       {currentPage}
     </main>
