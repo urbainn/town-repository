@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import TownSelectionPage from "./TownSelectionPage";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import TownLauCodesForm from "../../components/forms/TownLauCodesForm";
+import NameAndLogoForm from "../../components/forms/NameAndLogoForm";
 
 function TownCreationPage({ navigate, setHeader }: AppPageProps) {
 
@@ -90,6 +91,13 @@ function TownCreationPage({ navigate, setHeader }: AppPageProps) {
                             </div>
                             
                             <TownLauCodesForm lauCodes={lauCodes} onChange={(newLauCodes) => setLauCodes(newLauCodes)} />
+                        </Stack>
+                    )}
+
+                    {step === 3 && (
+                        <Stack direction="column" spacing={3}>
+                            <Typography variant="h4" sx={{ fontWeight: 600 }}>{t("Nom et logo")}</Typography>
+                            <NameAndLogoForm name={title} logoUrl="" onChange={(name, logoUrl) => setTitle(name)} />
                         </Stack>
                     )}
 
