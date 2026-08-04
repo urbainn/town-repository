@@ -29,25 +29,20 @@ export function ImageUploadImput({
         const file = event.target.files?.[0];
         
         if (file) {
-            // 1. Generate local preview for the UI
             const reader = new FileReader();
             reader.onload = (e) => setPreview(e.target?.result as string);
             reader.readAsDataURL(file);
 
-            // 2. Extract ArrayBuffer and pass it as a Uint8Array to the parent
             try {
                 const arrayBuffer = await file.arrayBuffer();
                 const uint8Array = new Uint8Array(arrayBuffer);
                 
-                // Passing the raw File object as a secondary parameter 
-                // in case your future compression library prefers File/Blob objects
                 onChange(uint8Array, file);
             } catch (err) {
                 console.error("Erreur lors de la lecture du fichier :", err);
             }
         }
         
-        // Reset input so selecting the same file again triggers onChange
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
         }

@@ -96,7 +96,7 @@ function TownCreationPage({ navigate, setHeader }: AppPageProps) {
 
                     {step === 3 && (
                         <Stack direction="column" spacing={3}>
-                            <Typography variant="h4" sx={{ fontWeight: 600 }}>{t("Nom et logo")}</Typography>
+                            <Typography variant="h4" sx={{ fontWeight: 600 }}>{t("Affichage")}</Typography>
                             <NameAndLogoForm name={title} logoUrl="" onChange={(name, logoUrl) => setTitle(name)} />
                         </Stack>
                     )}
