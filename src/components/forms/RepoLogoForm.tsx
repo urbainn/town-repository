@@ -1,22 +1,16 @@
-import { Stack, TextField, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { ImageUploadImput } from "./ImageUploadInput";
 import { t } from "../../core/i18n";
 import { Check, LocationCity, Close } from "@mui/icons-material";
 
-interface NameAndLogoFormProps {
-    name: string;
-    logoUrl: string;
-    onChange: (name: string, logoUrl: string) => void;
+interface RepoLogoFormProps {
+    logoUrl: string | null;
+    onLogoChange: (logo: File | null, url: string | null) => void;
 }
 
-function NameAndLogoForm({ name, logoUrl, onChange }: NameAndLogoFormProps) {
+function RepoLogoForm({ logoUrl, onLogoChange }: RepoLogoFormProps) {
     return (
         <Stack direction="column" spacing={3}>
-            <TextField
-                label={t("Nom de l'annuaire")}
-                value={name}
-                onChange={(e) => onChange(e.target.value, logoUrl)}
-            />
 
             <div className="flex gap-2 align-center">
                 <div>
@@ -28,8 +22,8 @@ function NameAndLogoForm({ name, logoUrl, onChange }: NameAndLogoFormProps) {
                         width={250}
                         height={250}
                         imageUrl={logoUrl}
-                        onChange={(imageBuffer, file) => {
-                            // Here you would typically upload the image and get a URL back
+                        onChange={(file) => {
+                            onLogoChange(file, URL.createObjectURL(file));
                         }}
                     />
                 </div>
@@ -66,4 +60,4 @@ function NameAndLogoForm({ name, logoUrl, onChange }: NameAndLogoFormProps) {
     );
 }
 
-export default NameAndLogoForm;
+export default RepoLogoForm;

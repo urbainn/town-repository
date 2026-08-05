@@ -7,7 +7,7 @@ interface ImageUploadImputProps {
     imageUrl?: string | null;
     width?: string | number;
     height?: string | number;
-    onChange: (imageBuffer: Uint8Array, file: File) => void;
+    onChange: (file: File) => void;
 }
 
 export function ImageUploadImput({ 
@@ -32,15 +32,7 @@ export function ImageUploadImput({
             const reader = new FileReader();
             reader.onload = (e) => setPreview(e.target?.result as string);
             reader.readAsDataURL(file);
-
-            try {
-                const arrayBuffer = await file.arrayBuffer();
-                const uint8Array = new Uint8Array(arrayBuffer);
-                
-                onChange(uint8Array, file);
-            } catch (err) {
-                console.error("Erreur lors de la lecture du fichier :", err);
-            }
+            onChange(file);
         }
         
         if (fileInputRef.current) {

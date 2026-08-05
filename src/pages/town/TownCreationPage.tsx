@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import TownSelectionPage from "./TownSelectionPage";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import TownLauCodesForm from "../../components/forms/TownLauCodesForm";
-import NameAndLogoForm from "../../components/forms/NameAndLogoForm";
+import RepoLogoForm from "../../components/forms/RepoLogoForm";
+import HeaderVisualisation from "../../components/display/HeaderVisualisation";
 
 function TownCreationPage({ navigate, setHeader }: AppPageProps) {
 
@@ -17,9 +18,16 @@ function TownCreationPage({ navigate, setHeader }: AppPageProps) {
     const [country, setCountry] = useState("france");
     const [lauCodes, setLauCodes] = useState<string[]>([]);
 
+    // Visual identity
+    const [logo, setLogo] = useState<File | null>(null);
+    const [logoUrl, setLogoUrl] = useState<string | null>(null);
+    const [primaryColor, setPrimaryColor] = useState<string | null>(null);
+    const [secondaryColor, setSecondaryColor] = useState<string | null>(null);
+    const [logoEnableBg, setLogoEnableBg] = useState<boolean>(true);
+
     // Set header
     useEffect(() => {
-        setHeader({ show: true, text: t('Nouvel annuaire') + ' (' + step + '/3)', onBack: handleBack });
+        setHeader({ show: true, text: t('Nouvel annuaire') + ' (' + step + '/4)', onBack: handleBack });
     }, [step]);
 
     // Go back to town list
@@ -58,7 +66,7 @@ function TownCreationPage({ navigate, setHeader }: AppPageProps) {
                         <TextField id="outlined-basic" label="Titre de l'annuaire" variant="outlined" size="medium" fullWidth
                             placeholder={t("Annuaire de VILLE")}
                             value={title}
-                            onChange={(event) => setTitle(event.target.value)}
+                            onChange={(event) => { setTitle(event.target.value); }}
                         />
                         
                         <FormControl fullWidth error={country === "other"}>
@@ -96,8 +104,18 @@ function TownCreationPage({ navigate, setHeader }: AppPageProps) {
 
                     {step === 3 && (
                         <Stack direction="column" spacing={3}>
-                            <Typography variant="h4" sx={{ fontWeight: 600 }}>{t("Affichage")}</Typography>
-                            <NameAndLogoForm name={title} logoUrl="" onChange={(name, logoUrl) => setTitle(name)} />
+                            <Typography variant="h4" sx={{ fontWeight: 600 }}>{t("Identité visuelle")}</Typography>
+                            <RepoLogoForm logoUrl={logoUrl} onLogoChange={(newLogo, url) => { setLogo(newLogo); setLogoUrl(url); }} />
+                            {logo && (
+                                <HeaderVisualisation name={title} logo={logo} logoEnableBg={false} />
+                            )}
+                        </Stack>
+                    )}
+
+                    {step === 4 && (
+                        <Stack direction="column" spacing={3}>
+                            <Typography variant="h4" sx={{ fontWeight: 600 }}>{t("Couleurs")}</Typography>
+                            <HeaderVisualisation name={title} logo={logo} primaryColor={primaryColor ?? undefined} secondaryColor={secondaryColor ?? undefined} logoEnableBg={logoEnableBg} />
                         </Stack>
                     )}
 
@@ -109,7 +127,7 @@ function TownCreationPage({ navigate, setHeader }: AppPageProps) {
                     </Button>
                     <Button variant="contained" color="primary" onClick={handleNext} className="width-100" endIcon={<ArrowForward />}
                     disabled={step === 1 && (country === "other" || title === "") || step === 2 && lauCodes.length === 0}>
-                        {step === 3 ? t("Terminer") : t("Suivant")}
+                        {step === 4 ? t("Terminer") : t("Suivant")}
                     </Button>
                 </div>
             </div>
